@@ -1,5 +1,11 @@
 version: '3.9'
 services:
+  user_server:
+    build: 
+      context: .
+      dockerfile: user/Dockerfile
+    ports:
+      - "8000:8000"
   user_db:
     image: postgres:15.2-alpine
     volumes:
