@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  user_db:
+    image: postgres:15.2-alpine
+    volumes:
+      - user_dbdata:/var/lib/postgresql/data
+      - ./sql/ddl/user:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=main
+    ports:
+      - 5432:5432
+  todo_db:
+    image: postgres:15.2-alpine
+    volumes:
+      - todo_dbdata:/var/lib/postgresql/data
+      - ./sql/ddl/todo:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=main
+    ports:
+      - 5433:5432
+  adminer:
+    image: adminer:4.7.5
+    restart: always
+    ports:
+      - "8080:8080"
+volumes:
+  user_dbdata:
+  todo_dbdata:
