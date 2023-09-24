@@ -34,7 +34,9 @@ func main() {
 
 	go func() {
 		log.Printf("start gRPC server port: %v", port)
-		s.Serve(listener)
+		if err := s.Serve(listener); err != nil {
+			log.Fatal(err)
+		}
 	}()
 
 	quit := make(chan os.Signal, 1)
