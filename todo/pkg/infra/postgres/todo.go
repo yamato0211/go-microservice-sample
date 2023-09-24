@@ -20,7 +20,7 @@ func NewTodoRepository(db *sqlx.DB) repository.ITodoRepository {
 
 func (tr *todoRepository) SelectAll(ctx context.Context, id int64) ([]*entity.Todo, error) {
 	var todos []*entity.Todo
-	err := tr.db.SelectContext(ctx, &todos, "select * from todos where user_id = $1", id)
+	err := tr.db.SelectContext(ctx, &todos, "select * from todos where user_id = $1 and done = false", id)
 	if err != nil {
 		return nil, err
 	}

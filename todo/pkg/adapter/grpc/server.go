@@ -44,7 +44,6 @@ func (s *todoServer) CreateTodo(ctx context.Context, ctr *todopb.CreateTodoReque
 	return &todopb.CreateTodoResponse{
 		Id:     todo.ID,
 		Title:  todo.Title,
-		Done:   todo.Done,
 		UserId: todo.UserID,
 	}, nil
 }

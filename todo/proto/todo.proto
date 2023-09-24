@@ -27,8 +27,7 @@ message CreateTodoRequest {
 message CreateTodoResponse {
     int64 id = 1;
     string title = 2;
-    bool done = 3;
-    int64 user_id = 4;
+    int64 user_id = 3;
 }
 
 message UpdateTodoRequest {
