@@ -1,5 +1,16 @@
 version: '3.9'
 services:
+  bff_server:
+    build:
+      context: .
+      dockerfile: bff/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - user_server
+      - todo_server
   user_server:
     build: 
       context: .
