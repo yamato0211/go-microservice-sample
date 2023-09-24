@@ -8,7 +8,7 @@ import (
 
 type IUserUsecase interface {
 	GetUser(ctx context.Context, id int64) (*entity.User, error)
-	GetUsers(ctx context.Context) ([]*entity.User, error)
+	GetUsers(ctx context.Context, ids []int64) ([]*entity.User, error)
 	CreateUser(ctx context.Context, name string) (*entity.User, error)
 }
 
@@ -30,8 +30,8 @@ func (uu *UserUsecase) GetUser(ctx context.Context, id int64) (*entity.User, err
 	return user, nil
 }
 
-func (uu *UserUsecase) GetUsers(ctx context.Context) ([]*entity.User, error) {
-	users, err := uu.svc.GetUsers(ctx)
+func (uu *UserUsecase) GetUsers(ctx context.Context, ids []int64) ([]*entity.User, error) {
+	users, err := uu.svc.GetUsers(ctx, ids)
 	if err != nil {
 		return nil, err
 	}

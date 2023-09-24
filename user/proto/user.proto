@@ -13,10 +13,12 @@ message GetUserResponse {
     string name = 2;
 }
 
-message GetUsersRequest {}
+message GetUsersRequest {
+    repeated int64 ids = 1;
+}
 
 message GetUsersResponse {
-    repeated GetUserResponse users = 1;
+    map<int64, GetUserResponse> users = 1;
 }
 
 message CreateUserRequest {

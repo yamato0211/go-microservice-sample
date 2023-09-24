@@ -18,9 +18,14 @@ func NewUserRepository(db *sqlx.DB) repository.IUserRepository {
 	}
 }
 
-func (ur *userRepository) SelectAll(ctx context.Context) ([]*entity.User, error) {
+func (ur *userRepository) SelectAll(ctx context.Context, ids []int64) ([]*entity.User, error) {
+	query := `select * from users where id IN (?)`
+	query, params, err := sqlx.In(query, ids)
+	if err != nil {
+		return nil, err
+	}
 	var users []*entity.User
-	err := ur.db.Select(&users, "select * from users")
+	err = ur.db.Select(&users, query, params)
 	if err != nil {
 		return nil, err
 	}

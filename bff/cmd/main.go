@@ -2,6 +2,7 @@ package main
 
 import (
 	"go-micro-sample/bff/graph"
+	"go-micro-sample/bff/graph/loader"
 	"go-micro-sample/bff/injection"
 	"log"
 	"net/http"
@@ -22,6 +23,8 @@ func main() {
 	userService := injection.InitializeUserService()
 	todoService := injection.InitializeTodoService()
 
+	ldrs := loader.NewLoaders(userService)
+
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{
 		Resolvers: &graph.Resolver{
 			UserService: userService,
@@ -30,7 +33,7 @@ func main() {
 	}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	http.Handle("/query", loader.Middleware(ldrs, srv))
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))

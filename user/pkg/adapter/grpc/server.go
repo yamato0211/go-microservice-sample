@@ -29,13 +29,13 @@ func (s *userServer) GetUser(ctx context.Context, gur *userpb.GetUserRequest) (*
 }
 
 func (s *userServer) GetUsers(ctx context.Context, gur *userpb.GetUsersRequest) (*userpb.GetUsersResponse, error) {
-	users, err := s.usecase.GetUsers(ctx)
+	users, err := s.usecase.GetUsers(ctx, gur.GetIds())
 	if err != nil {
 		return nil, err
 	}
-	res := make([]*userpb.GetUserResponse, len(users))
-	for i, u := range users {
-		res[i] = &userpb.GetUserResponse{
+	res := make(map[int64]*userpb.GetUserResponse, len(users))
+	for _, u := range users {
+		res[u.ID] = &userpb.GetUserResponse{
 			Id:   u.ID,
 			Name: u.Name,
 		}
